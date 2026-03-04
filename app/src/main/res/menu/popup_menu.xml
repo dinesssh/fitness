@@ -9,4 +9,10 @@
     <item
         android:id="@+id/popup_project_description"
         android:title="Project Description" />
+    <item
+        android:id="@+id/popup_location"
+        android:title="Nearby Places" />
+    <item
+        android:id="@+id/popup_sms"
+        android:title="SMS Reminder" />
 </menu>

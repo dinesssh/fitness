@@ -3,106 +3,221 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_light">
+    android:background="@color/background_white">
 
     <ImageView
-        android:id="@+id/foodImage"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:scaleType="centerCrop"
-        android:src="@android:drawable/ic_menu_gallery"
+        android:id="@+id/backButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/circle_outline"
+        android:padding="8dp"
+        android:src="@android:drawable/ic_menu_revert"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="-30dp"
-        app:cardCornerRadius="30dp"
-        app:cardElevation="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/foodImage">
+    <TextView
+        android:id="@+id/nutritionTitle"
+        style="@style/TitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nutrition"
+        app:layout_constraintBottom_toBottomOf="@id/backButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/backButton" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/foodImageCard"
+        style="@style/FigmaCard"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="24dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="0dp"
+        app:layout_constraintTop_toBottomOf="@id/backButton">
+
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="24dp">
+            android:scaleType="centerCrop"
+            android:src="@android:drawable/ic_menu_gallery" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/foodName"
+        style="@style/SectionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="CHICKEN"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/foodImageCard" />
+
+    <TextView
+        android:id="@+id/servingSize"
+        style="@style/SectionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="100g"
+        app:layout_constraintBottom_toBottomOf="@id/foodName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/foodName" />
+
+    <TextView
+        android:id="@+id/nutritionValueLabel"
+        style="@style/BodyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nutrition value"
+        app:layout_constraintStart_toStartOf="@id/foodName"
+        app:layout_constraintTop_toBottomOf="@id/foodName" />
+
+    <TextView
+        android:id="@+id/caloriesValue"
+        style="@style/BodyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="457 cal"
+        app:layout_constraintBottom_toBottomOf="@id/nutritionValueLabel"
+        app:layout_constraintEnd_toEndOf="@id/servingSize"
+        app:layout_constraintTop_toTopOf="@id/nutritionValueLabel" />
+
+    <LinearLayout
+        android:id="@+id/macroContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="24dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/nutritionValueLabel">
+
+        <!-- Protein -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:id="@+id/proteinIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_myplaces" />
 
             <TextView
-                android:id="@+id/foodName"
+                style="@style/SectionText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Grilled Salmon"
-                android:textColor="@color/text_dark"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/caloriesCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="450 kcal"
-                android:textColor="@color/primary_purple"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/foodName" />
-
-            <!-- Protein Bar -->
-            <TextView
-                android:id="@+id/proteinLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@id/proteinIcon"
                 android:text="Protein"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/caloriesCount" />
+                android:textSize="16sp" />
+
+            <TextView
+                style="@style/BodyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="22g" />
 
             <ProgressBar
-                android:id="@+id/proteinProgress"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="0dp"
-                android:layout_height="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:layout_below="@id/proteinIcon"
                 android:layout_marginTop="8dp"
                 android:progress="70"
-                android:progressTint="@color/primary_purple"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/proteinLabel" />
+                android:progressDrawable="@drawable/progress_green" />
+        </RelativeLayout>
 
-            <!-- Carbs Bar -->
+        <!-- Carbs -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:id="@+id/carbsIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_agenda" />
+
             <TextView
-                android:id="@+id/carbsLabel"
+                style="@style/SectionText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@id/carbsIcon"
                 android:text="Carbs"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/proteinProgress" />
+                android:textSize="16sp" />
+
+            <TextView
+                style="@style/BodyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="1.8g" />
 
             <ProgressBar
-                android:id="@+id/carbsProgress"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="0dp"
-                android:layout_height="8dp"
-                android:layout_marginTop="8dp"
-                android:progress="30"
-                android:progressTint="@color/accent_orange"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/carbsLabel" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/addMealButton"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:backgroundTint="@color/accent_orange"
-                android:text="Add Meal"
-                android:textAllCaps="false"
-                app:cornerRadius="12dp"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                android:layout_height="6dp"
+                android:layout_below="@id/carbsIcon"
+                android:layout_marginTop="8dp"
+                android:progress="20"
+                android:progressDrawable="@drawable/progress_yellow" />
+        </RelativeLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
+        <!-- Fat -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/fatIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_compass" />
+
+            <TextView
+                style="@style/SectionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@id/fatIcon"
+                android:text="Fat"
+                android:textSize="16sp" />
+
+            <TextView
+                style="@style/BodyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="13g" />
+
+            <ProgressBar
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:layout_below="@id/fatIcon"
+                android:layout_marginTop="8dp"
+                android:progress="40"
+                android:progressDrawable="@drawable/progress_orange" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addMealButton"
+        style="@style/FigmaButton"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="24dp"
+        android:text="Add Meal →"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

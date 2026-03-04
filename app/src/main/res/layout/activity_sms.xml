@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send SMS Reminder"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="30dp" />
+
+    <EditText
+        android:id="@+id/etPhoneNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Phone Number"
+        android:inputType="phone"
+        android:layout_marginBottom="20dp" />
+
+    <EditText
+        android:id="@+id/etMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Message"
+        android:text="Reminder: Don't forget your healthy meal today!"
+        android:layout_marginBottom="30dp" />
+
+    <Button
+        android:id="@+id/btnSendSms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send SMS" />
+
+</LinearLayout>

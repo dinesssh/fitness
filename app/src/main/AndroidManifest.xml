@@ -2,8 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
         android:allowBackup="true"
@@ -14,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Food">
-        
+
         <activity
             android:name=".LoginActivity"
             android:exported="true">
@@ -23,22 +27,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+
         <activity android:name=".MainActivity" android:exported="false" />
         <activity android:name=".AboutUsActivity" android:label="About Us" android:exported="false" />
         <activity android:name=".TeamDetailsActivity" android:label="Team Details" android:exported="false" />
         <activity android:name=".TeamMembersActivity" android:label="Team Members" android:exported="false" />
         <activity android:name=".MemberDetailActivity" android:label="Member Detail" android:exported="false" />
         <activity android:name=".ProjectDescriptionActivity" android:label="Project Description" android:exported="false" />
-        
         <activity android:name=".AssessmentActivity" android:exported="false" />
         <activity android:name=".MyMealsActivity" android:exported="false" />
         <activity android:name=".NutritionDetailActivity" android:exported="false" />
         <activity android:name=".CalorieStatsActivity" android:exported="false" />
         <activity android:name=".HydrationActivity" android:exported="false" />
+        <activity android:name=".NearbyFoodActivity" android:label="Nearby Healthy Food" android:exported="false" />
+        <activity android:name=".DietReportActivity" android:label="Diet Report Sharing" android:exported="false" />
 
-        <receiver android:name=".NotificationReceiver" android:exported="false" />
-            
+        <service
+            android:name=".FoodReminderService"
+            android:foregroundServiceType="dataSync"
+            android:exported="false" />
+
     </application>
 
 </manifest>

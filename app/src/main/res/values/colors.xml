@@ -2,10 +2,15 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="primary_purple">#6C63FF</color>
-    <color name="accent_orange">#FF9800</color>
-    <color name="background_light">#F5F7FA</color>
-    <color name="text_dark">#333333</color>
+    
+    <color name="background_white">#FFFFFF</color>
+    <color name="primary_accent">#FF7A00</color>
+    <color name="text_dark">#222222</color>
     <color name="text_grey">#777777</color>
-    <color name="water_blue">#2196F3</color>
+    
+    <color name="protein_green">#4CAF50</color>
+    <color name="carbs_yellow">#FFEB3B</color>
+    <color name="fat_orange">#FF9800</color>
+    
+    <color name="input_bg">#F5F5F5</color>
 </resources>

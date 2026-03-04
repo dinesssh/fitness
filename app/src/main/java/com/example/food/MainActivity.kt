@@ -1,6 +1,7 @@
 package com.example.food
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
@@ -12,16 +13,25 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Request Notification Permission for Android 13+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 101)
+        }
+
+        // Start Foreground Service
+        val serviceIntent = Intent(this, MealTrackingService::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(serviceIntent)
+        } else {
+            startService(serviceIntent)
+        }
+
         val showMenuButton = findViewById<MaterialButton>(R.id.showMenuButton)
 
         showMenuButton.setOnClickListener { view ->
-            // 1. Create the PopupMenu
             val popup = PopupMenu(this, view)
-            
-            // 2. Inflate the menu XML
             popup.menuInflater.inflate(R.menu.popup_menu, popup.menu)
 
-            // 3. Handle item clicks
             popup.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.popup_about -> {
@@ -36,11 +46,19 @@ class MainActivity : AppCompatActivity() {
                         startActivity(Intent(this, ProjectDescriptionActivity::class.java))
                         true
                     }
+                    R.id.popup_location -> {
+                        // Corrected activity name to match AndroidManifest
+                        startActivity(Intent(this, NearbyFoodActivity::class.java))
+                        true
+                    }
+                    R.id.popup_sms -> {
+                        // Corrected activity name to match AndroidManifest
+                        startActivity(Intent(this, DietReportActivity::class.java))
+                        true
+                    }
                     else -> false
                 }
             }
-            
-            // 4. Show the menu
             popup.show()
         }
     }

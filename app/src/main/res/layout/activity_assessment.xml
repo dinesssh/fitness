@@ -3,92 +3,84 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_light"
+    android:background="@color/background_white"
     android:padding="24dp">
 
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/assessmentTitle"
+        style="@style/TitleText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:text="Assessment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="32dp">
+    <TextView
+        android:id="@+id/ageQuestion"
+        style="@style/SectionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="What’s your Age?"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/assessmentTitle" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Assessment"
-                android:textColor="@color/text_dark"
-                android:textSize="28sp"
-                android:textStyle="bold" />
+    <EditText
+        android:id="@+id/ageInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edittext_bg"
+        android:hint="type here"
+        android:inputType="number"
+        android:minWidth="150dp"
+        android:padding="12dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ageQuestion" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="32dp"
-                android:text="Enter your details"
-                android:textColor="@color/text_grey"
-                android:textSize="16sp" />
+    <TextView
+        android:id="@+id/weightQuestion"
+        style="@style/SectionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="What’s your current\nweight right now?"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ageInput" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Enter Age"
-                app:boxCornerRadiusBottomEnd="12dp"
-                app:boxCornerRadiusBottomStart="12dp"
-                app:boxCornerRadiusTopEnd="12dp"
-                app:boxCornerRadiusTopStart="12dp"
-                app:boxStrokeColor="@color/primary_purple"
-                app:hintTextColor="@color/primary_purple">
+    <TextView
+        android:id="@+id/weightValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="62 Kg"
+        android:textColor="@color/text_dark"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/weightQuestion" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/ageEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number" />
-            </com.google.android.material.textfield.TextInputLayout>
+    <ImageView
+        android:id="@+id/weightRuler"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="16dp"
+        android:src="@android:drawable/ic_menu_sort_by_size"
+        app:layout_constraintTop_toBottomOf="@id/weightValue" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:hint="Enter Weight (kg)"
-                app:boxCornerRadiusBottomEnd="12dp"
-                app:boxCornerRadiusBottomStart="12dp"
-                app:boxCornerRadiusTopEnd="12dp"
-                app:boxCornerRadiusTopStart="12dp"
-                app:boxStrokeColor="@color/primary_purple"
-                app:hintTextColor="@color/primary_purple">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/weightEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/submitButton"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginTop="32dp"
-                android:backgroundTint="@color/primary_purple"
-                android:text="Submit"
-                android:textAllCaps="false"
-                android:textSize="16sp"
-                app:cornerRadius="12dp" />
-
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/continueButton"
+        style="@style/FigmaButton"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="24dp"
+        android:text="Continue →"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
