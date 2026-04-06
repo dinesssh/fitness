@@ -22,202 +22,83 @@
         style="@style/TitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nutrition"
+        android:text="Add Meal"
         app:layout_constraintBottom_toBottomOf="@id/backButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/backButton" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/foodImageCard"
-        style="@style/FigmaCard"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginHorizontal="24dp"
+        android:layout_height="0dp"
         android:layout_marginTop="24dp"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="0dp"
-        app:layout_constraintTop_toBottomOf="@id/backButton">
+        app:layout_constraintBottom_toTopOf="@id/addMealButton"
+        app:layout_constraintTop_toBottomOf="@id/nutritionTitle">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@android:drawable/ic_menu_gallery" />
-    </com.google.android.material.card.MaterialCardView>
-
-    <TextView
-        android:id="@+id/foodName"
-        style="@style/SectionText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:text="CHICKEN"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/foodImageCard" />
-
-    <TextView
-        android:id="@+id/servingSize"
-        style="@style/SectionText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:text="100g"
-        app:layout_constraintBottom_toBottomOf="@id/foodName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/foodName" />
-
-    <TextView
-        android:id="@+id/nutritionValueLabel"
-        style="@style/BodyText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nutrition value"
-        app:layout_constraintStart_toStartOf="@id/foodName"
-        app:layout_constraintTop_toBottomOf="@id/foodName" />
-
-    <TextView
-        android:id="@+id/caloriesValue"
-        style="@style/BodyText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="457 cal"
-        app:layout_constraintBottom_toBottomOf="@id/nutritionValueLabel"
-        app:layout_constraintEnd_toEndOf="@id/servingSize"
-        app:layout_constraintTop_toTopOf="@id/nutritionValueLabel" />
-
-    <LinearLayout
-        android:id="@+id/macroContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="24dp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/nutritionValueLabel">
-
-        <!-- Protein -->
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+            android:orientation="vertical"
+            android:padding="24dp">
 
-            <ImageView
-                android:id="@+id/proteinIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_myplaces" />
-
-            <TextView
-                style="@style/SectionText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_toEndOf="@id/proteinIcon"
-                android:text="Protein"
-                android:textSize="16sp" />
-
-            <TextView
-                style="@style/BodyText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:text="22g" />
-
-            <ProgressBar
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            <EditText
+                android:id="@+id/etMealName"
                 android:layout_width="match_parent"
-                android:layout_height="6dp"
-                android:layout_below="@id/proteinIcon"
-                android:layout_marginTop="8dp"
-                android:progress="70"
-                android:progressDrawable="@drawable/progress_green" />
-        </RelativeLayout>
+                android:layout_height="52dp"
+                android:background="@drawable/edittext_bg"
+                android:hint="Meal Name (e.g. Chicken Salad)"
+                android:paddingHorizontal="16dp" />
 
-        <!-- Carbs -->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
-
-            <ImageView
-                android:id="@+id/carbsIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_agenda" />
-
-            <TextView
-                style="@style/SectionText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_toEndOf="@id/carbsIcon"
-                android:text="Carbs"
-                android:textSize="16sp" />
-
-            <TextView
-                style="@style/BodyText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:text="1.8g" />
-
-            <ProgressBar
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            <EditText
+                android:id="@+id/etCalories"
                 android:layout_width="match_parent"
-                android:layout_height="6dp"
-                android:layout_below="@id/carbsIcon"
-                android:layout_marginTop="8dp"
-                android:progress="20"
-                android:progressDrawable="@drawable/progress_yellow" />
-        </RelativeLayout>
+                android:layout_height="52dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/edittext_bg"
+                android:hint="Calories (kcal)"
+                android:inputType="number"
+                android:paddingHorizontal="16dp" />
 
-        <!-- Fat -->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/fatIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_compass" />
-
-            <TextView
-                style="@style/SectionText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_toEndOf="@id/fatIcon"
-                android:text="Fat"
-                android:textSize="16sp" />
-
-            <TextView
-                style="@style/BodyText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:text="13g" />
-
-            <ProgressBar
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            <EditText
+                android:id="@+id/etProtein"
                 android:layout_width="match_parent"
-                android:layout_height="6dp"
-                android:layout_below="@id/fatIcon"
-                android:layout_marginTop="8dp"
-                android:progress="40"
-                android:progressDrawable="@drawable/progress_orange" />
-        </RelativeLayout>
-    </LinearLayout>
+                android:layout_height="52dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/edittext_bg"
+                android:hint="Protein (g)"
+                android:inputType="numberDecimal"
+                android:paddingHorizontal="16dp" />
+
+            <EditText
+                android:id="@+id/etCarbs"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/edittext_bg"
+                android:hint="Carbs (g)"
+                android:inputType="numberDecimal"
+                android:paddingHorizontal="16dp" />
+
+            <EditText
+                android:id="@+id/etFat"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/edittext_bg"
+                android:hint="Fat (g)"
+                android:inputType="numberDecimal"
+                android:paddingHorizontal="16dp" />
+
+        </LinearLayout>
+    </ScrollView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/addMealButton"
         style="@style/FigmaButton"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
         android:layout_marginHorizontal="24dp"
         android:layout_marginBottom="24dp"
-        android:text="Add Meal →"
+        android:text="Save Meal"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

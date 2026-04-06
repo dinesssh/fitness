@@ -19,12 +19,10 @@
 
     <TextView
         android:id="@+id/hydrationTitle"
+        style="@style/TitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hydration"
-        android:textColor="@color/text_dark"
-        android:textSize="22sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/backButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,26 +30,37 @@
 
     <TextView
         android:id="@+id/currentWater"
+        style="@style/TitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="500 ml"
-        android:textColor="@color/text_dark"
+        android:text="0 ml"
         android:textSize="32sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/hydrationTitle" />
 
     <TextView
         android:id="@+id/waterGoalHint"
+        style="@style/BodyText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="You need 1500ml for today."
-        android:textColor="@color/text_grey"
+        android:text="Goal: 2000ml for today."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/currentWater" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAddWater"
+        style="@style/FigmaButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:paddingHorizontal="32dp"
+        android:text="+ 250 ml"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/waterGoalHint" />
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
@@ -63,42 +72,30 @@
         app:cardCornerRadius="32dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/waterGoalHint">
+        app:layout_constraintTop_toBottomOf="@id/btnAddWater">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <View
+                android:id="@+id/waterFillView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@drawable/water_fill_bg"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHeight_percent="0.0" />
+
             <TextView
+                android:id="@+id/tvPercentage"
+                style="@style/TitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
-                android:text="Goal\n2000ml"
-                android:textColor="@color/text_dark"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:background="@drawable/water_fill_bg"
-                app:layout_constraintBottom_toBottomOf="parent" />
-
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginBottom="48dp"
-                android:backgroundTint="@color/white"
-                app:cornerRadius="16dp"
-                app:icon="@android:drawable/ic_input_add"
-                app:iconSize="32dp"
-                app:iconTint="#2196F3"
+                android:text="0%"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
