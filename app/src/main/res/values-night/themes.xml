@@ -1,7 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.Food" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/gh_primary</item>
+        <item name="android:windowBackground">@color/gh_bg</item>
+        <item name="android:statusBarColor">@color/gh_bg</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="colorSurface">@color/gh_card</item>
+        <item name="colorOnSurface">@color/gh_text</item>
+
+        <!-- Fix for dark text in inputs -->
+        <item name="android:editTextColor">@color/gh_text</item>
+        <item name="android:textColorPrimary">@color/gh_text</item>
+        <item name="android:textColorSecondary">@color/gh_text_muted</item>
+        <item name="android:textColorHint">@color/gh_text_muted</item>
     </style>
+    
+    <style name="RoundedButton" parent="FigmaButton" />
 </resources>

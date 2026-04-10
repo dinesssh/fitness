@@ -9,6 +9,15 @@
     <color name="text_dark">#222222</color>
     <color name="text_grey">#777777</color>
     
+    <!-- GitHub Dark Theme Colors -->
+    <color name="gh_bg">#0d1117</color>
+    <color name="gh_card">#161b22</color>
+    <color name="gh_border">#30363d</color>
+    <color name="gh_text">#c9d1d9</color>
+    <color name="gh_text_muted">#8b949e</color>
+    <color name="gh_success">#238636</color>
+    <color name="gh_primary">#2f81f7</color>
+    
     <!-- Macro colors -->
     <color name="protein_green">#4CAF50</color>
     <color name="carbs_yellow">#FFEB3B</color>

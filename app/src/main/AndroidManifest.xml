@@ -41,6 +41,9 @@
         <activity android:name=".HydrationActivity" android:exported="false" />
         <activity android:name=".NearbyFoodActivity" android:label="Nearby Healthy Food" android:exported="false" />
         <activity android:name=".DietReportActivity" android:label="Diet Report Sharing" android:exported="false" />
+        <activity android:name=".WorkoutActivity" android:exported="false" />
+        <activity android:name=".WorkoutSelectionActivity" android:exported="false" />
+        <activity android:name=".WorkoutSessionActivity" android:exported="false" />
 
         <service
             android:name=".FoodReminderService"

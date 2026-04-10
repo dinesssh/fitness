@@ -1,27 +1,19 @@
 package com.example.food
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.location.Geocoder
-import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.Priority
-import com.google.android.material.button.MaterialButton
-import java.util.Locale
+import androidx.core.content.ContextCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MyMealsActivity : AppCompatActivity() {
 
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var db: DatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,58 +21,90 @@ class MyMealsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_my_meals)
 
         db = DatabaseHelper(this)
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        // Start Foreground Service
-        val serviceIntent = Intent(this, FoodReminderService::class.java)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(serviceIntent)
-        } else {
-            startService(serviceIntent)
-        }
-
-        findViewById<ImageView>(R.id.backButton).setOnClickListener { finish() }
-
-        setupNavigation()
+        setupBottomNavigation()
+        setupClickListeners()
         updateDashboard()
     }
 
     override fun onResume() {
         super.onResume()
         updateDashboard()
+        findViewById<BottomNavigationView>(R.id.bottomNavigation).selectedItemId = R.id.nav_nutrition
     }
 
-    private fun setupNavigation() {
-        findViewById<MaterialButton>(R.id.nearbyFoodButton).setOnClickListener { checkLocationPermissions() }
-        findViewById<MaterialButton>(R.id.nutritionButton).setOnClickListener {
-            startActivity(Intent(this, NutritionDetailActivity::class.java))
+    private fun setupBottomNavigation() {
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigation)
+        bottomNav.selectedItemId = R.id.nav_nutrition
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                    true
+                }
+                R.id.nav_workouts -> {
+                    startActivity(Intent(this, WorkoutActivity::class.java))
+                    true
+                }
+                R.id.nav_nutrition -> true
+                R.id.nav_profile -> {
+                    Toast.makeText(this, "Profile Section", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                else -> false
+            }
         }
-        findViewById<MaterialButton>(R.id.hydrationButton).setOnClickListener {
+    }
+
+    private fun setupClickListeners() {
+        findViewById<ImageView>(R.id.btnAddBreakfast).setOnClickListener { openAddMeal("Breakfast") }
+        findViewById<ImageView>(R.id.btnAddLunch).setOnClickListener { openAddMeal("Lunch") }
+        findViewById<ImageView>(R.id.btnAddDinner).setOnClickListener { openAddMeal("Dinner") }
+        findViewById<ImageView>(R.id.btnAddSnacks).setOnClickListener { openAddMeal("Snacks") }
+
+        findViewById<com.google.android.material.button.MaterialButton>(R.id.btnAddWaterQuick).setOnClickListener {
+            db.addWater(250)
+            updateDashboard()
+            Toast.makeText(this, "250ml Added! 💧", Toast.LENGTH_SHORT).show()
+        }
+
+        findViewById<com.google.android.material.button.MaterialButton>(R.id.btnWaterPage).setOnClickListener {
             startActivity(Intent(this, HydrationActivity::class.java))
         }
-        findViewById<MaterialButton>(R.id.shareReportButton).setOnClickListener {
-            startActivity(Intent(this, DietReportActivity::class.java))
-        }
+    }
+
+    private fun openAddMeal(type: String) {
+        val intent = Intent(this, NutritionDetailActivity::class.java)
+        intent.putExtra("MEAL_TYPE", type)
+        startActivity(intent)
     }
 
     private fun updateDashboard() {
+        // --- 1. Calorie & Goal Logic ---
         val cursorProfile = db.getProfile()
-        var calorieGoal = 2000 // Default
-        
+        var calorieGoal = 2200
         if (cursorProfile != null && cursorProfile.moveToFirst()) {
-            val goal = cursorProfile.getString(cursorProfile.getColumnIndexOrThrow("goal"))
-            calorieGoal = if (goal == "Weight Loss") 1600 else 2400
+            val goalStr = cursorProfile.getString(cursorProfile.getColumnIndexOrThrow("goal"))
+            calorieGoal = if (goalStr == "Weight Loss") 1800 else 2500
             cursorProfile.close()
         }
 
+        // --- 2. Aggregate Today's Nutrition ---
         val cursorMeals = db.getTodayMeals()
         var totalCal = 0
         var totalPro = 0.0
         var totalCarb = 0.0
         var totalFat = 0.0
+        var totalFib = 0.0
 
-        val mealListContainer = findViewById<LinearLayout>(R.id.mealListContainer)
-        mealListContainer.removeAllViews()
+        // Clear containers
+        val bItems = findViewById<LinearLayout>(R.id.breakfastItems).apply { removeAllViews() }
+        val lItems = findViewById<LinearLayout>(R.id.lunchItems).apply { removeAllViews() }
+        val dItems = findViewById<LinearLayout>(R.id.dinnerItems).apply { removeAllViews() }
+        val sItems = findViewById<LinearLayout>(R.id.snacksItems).apply { removeAllViews() }
+
+        var bCal = 0; var lCal = 0; var dCal = 0; var sCal = 0
 
         if (cursorMeals != null) {
             while (cursorMeals.moveToNext()) {
@@ -90,58 +114,56 @@ class MyMealsActivity : AppCompatActivity() {
                 val pro = cursorMeals.getDouble(cursorMeals.getColumnIndexOrThrow("protein"))
                 val carb = cursorMeals.getDouble(cursorMeals.getColumnIndexOrThrow("carbs"))
                 val fat = cursorMeals.getDouble(cursorMeals.getColumnIndexOrThrow("fat"))
+                val fib = cursorMeals.getDouble(cursorMeals.getColumnIndexOrThrow("fiber"))
+                val type = cursorMeals.getString(cursorMeals.getColumnIndexOrThrow("meal_type"))
 
-                totalCal += cal
-                totalPro += pro
-                totalCarb += carb
-                totalFat += fat
+                totalCal += cal; totalPro += pro; totalCarb += carb; totalFat += fat; totalFib += fib
 
-                // Simple horizontal view for each meal
-                val textView = TextView(this)
-                textView.text = "• $name ($cal kcal)"
-                textView.setPadding(0, 8, 0, 8)
-                textView.setOnLongClickListener {
-                    db.deleteMeal(id)
-                    updateDashboard()
-                    Toast.makeText(this, "Meal Deleted", Toast.LENGTH_SHORT).show()
-                    true
+                val itemRow = LayoutInflater.from(this).inflate(android.R.layout.simple_list_item_2, null)
+                itemRow.findViewById<TextView>(android.R.id.text1).apply {
+                    text = name; setTextColor(ContextCompat.getColor(context, R.color.gh_text))
                 }
-                mealListContainer.addView(textView)
+                itemRow.findViewById<TextView>(android.R.id.text2).apply {
+                    text = "$cal kcal"; setTextColor(ContextCompat.getColor(context, R.color.gh_text_muted))
+                }
+                itemRow.setOnLongClickListener {
+                    db.deleteMeal(id); updateDashboard()
+                    Toast.makeText(this, "Meal Removed", Toast.LENGTH_SHORT).show(); true
+                }
+
+                when (type) {
+                    "Breakfast" -> { bItems.addView(itemRow); bCal += cal }
+                    "Lunch" -> { lItems.addView(itemRow); lCal += cal }
+                    "Dinner" -> { dItems.addView(itemRow); dCal += cal }
+                    "Snacks" -> { sItems.addView(itemRow); sCal += cal }
+                }
             }
             cursorMeals.close()
         }
 
-        findViewById<TextView>(R.id.tvCaloriesValue).text = "$totalCal / $calorieGoal kcal"
-        val pbCalories = findViewById<ProgressBar>(R.id.pbCalories)
-        pbCalories.max = calorieGoal
-        pbCalories.progress = totalCal
-    }
+        // --- 3. Update UI Elements ---
+        findViewById<TextView>(R.id.tvTotalCalories).text = "$totalCal / $calorieGoal kcal"
+        findViewById<ProgressBar>(R.id.pbTotalCalories).apply { max = calorieGoal; progress = totalCal }
 
-    private fun checkLocationPermissions() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 101)
-        } else {
-            getLocation()
-        }
-    }
+        findViewById<TextView>(R.id.tvProtein).text = "${totalPro.toInt()}g"
+        findViewById<ProgressBar>(R.id.pbProtein).progress = totalPro.toInt()
+        
+        findViewById<TextView>(R.id.tvCarbs).text = "${totalCarb.toInt()}g"
+        findViewById<ProgressBar>(R.id.pbCarbs).progress = totalCarb.toInt()
 
-    private fun getLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) return
-        fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
-            .addOnSuccessListener { location ->
-                if (location != null) {
-                    val geocoder = Geocoder(this, Locale.getDefault())
-                    val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                    val fullAddress = addresses?.get(0)?.getAddressLine(0) ?: "Unknown"
-                    Toast.makeText(this, "Location: $fullAddress", Toast.LENGTH_LONG).show()
-                }
-            }
-    }
+        findViewById<TextView>(R.id.tvFats).text = "${totalFat.toInt()}g"
+        findViewById<ProgressBar>(R.id.pbFats).progress = totalFat.toInt()
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 101 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            getLocation()
-        }
+        findViewById<TextView>(R.id.tvFiber).text = "${totalFib.toInt()}g"
+
+        findViewById<TextView>(R.id.tvBreakfastCal).text = "$bCal kcal"
+        findViewById<TextView>(R.id.tvLunchCal).text = "$lCal kcal"
+        findViewById<TextView>(R.id.tvDinnerCal).text = "$dCal kcal"
+        findViewById<TextView>(R.id.tvSnacksCal).text = "$sCal kcal"
+
+        // Water
+        val water = db.getTodayWater()
+        findViewById<TextView>(R.id.tvWaterRatio).text = "${water / 1000.0}L / 3L"
+        findViewById<ProgressBar>(R.id.pbWater).progress = water
     }
 }
