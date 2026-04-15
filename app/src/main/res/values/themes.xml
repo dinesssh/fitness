@@ -1,42 +1,40 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Base.Theme.Food" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- GitHub Dark Theme Color Palette -->
-        <item name="colorPrimary">@color/gh_primary</item>
-        <item name="android:windowBackground">@color/gh_bg</item>
-        <item name="android:statusBarColor">@color/gh_bg</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="colorSurface">@color/gh_card</item>
-        <item name="colorOnSurface">@color/gh_text</item>
+    <style name="Base.Theme.Food" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Aqua Bright Theme Color Palette -->
+        <item name="colorPrimary">@color/aqua_primary</item>
+        <item name="android:windowBackground">@color/aqua_bg</item>
+        <item name="android:statusBarColor">@color/aqua_bg</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="colorSurface">@color/aqua_card</item>
+        <item name="colorOnSurface">@color/aqua_text</item>
         
-        <!-- Fix for dark text in inputs -->
-        <item name="android:editTextColor">@color/gh_text</item>
-        <item name="android:textColorPrimary">@color/gh_text</item>
-        <item name="android:textColorSecondary">@color/gh_text_muted</item>
-        <item name="android:textColorHint">@color/gh_text_muted</item>
+        <item name="android:editTextColor">@color/aqua_text</item>
+        <item name="android:textColorPrimary">@color/aqua_text</item>
+        <item name="android:textColorSecondary">@color/aqua_text_muted</item>
+        <item name="android:textColorHint">@color/aqua_text_muted</item>
     </style>
 
     <style name="Theme.Food" parent="Base.Theme.Food" />
 
     <style name="FigmaButton" parent="Widget.MaterialComponents.Button">
-        <item name="backgroundTint">@color/gh_primary</item>
+        <item name="backgroundTint">@color/aqua_primary</item>
         <item name="android:layout_height">56dp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textAllCaps">false</item>
-        <item name="cornerRadius">8dp</item>
+        <item name="cornerRadius">16dp</item>
+        <item name="elevation">4dp</item>
     </style>
 
-    <!-- Legacy Alias to fix resource linking -->
     <style name="RoundedButton" parent="FigmaButton" />
 
     <style name="FigmaCard" parent="Widget.MaterialComponents.CardView">
-        <item name="cardBackgroundColor">@color/gh_card</item>
-        <item name="cardCornerRadius">12dp</item>
-        <item name="cardElevation">0dp</item>
-        <item name="strokeColor">@color/gh_border</item>
+        <item name="cardBackgroundColor">@color/aqua_card</item>
+        <item name="cardCornerRadius">20dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="strokeColor">@color/aqua_border</item>
         <item name="strokeWidth">1dp</item>
-        <item name="android:layout_margin">8dp</item>
     </style>
 
     <style name="CircleImage">
@@ -44,19 +42,20 @@
     </style>
 
     <style name="TitleText">
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">26sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/gh_text</item>
+        <item name="android:textColor">@color/aqua_text</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
     <style name="SectionText">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/gh_text</item>
+        <item name="android:textColor">@color/aqua_text</item>
     </style>
 
     <style name="BodyText">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/gh_text_muted</item>
+        <item name="android:textColor">@color/aqua_text_muted</item>
     </style>
 </resources>

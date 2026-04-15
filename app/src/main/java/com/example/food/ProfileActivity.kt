@@ -3,9 +3,11 @@ package com.example.food
 import android.content.Intent
 import android.os.Bundle
 import android.view.animation.AlphaAnimation
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 
 class ProfileActivity : AppCompatActivity() {
@@ -28,29 +30,33 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun setupNavigation() {
+        val btnEditProfile = findViewById<MaterialButton>(R.id.btnEditProfile)
         val cardStats = findViewById<MaterialCardView>(R.id.cardStats)
         val cardAchievements = findViewById<MaterialCardView>(R.id.cardAchievements)
         val cardSettings = findViewById<MaterialCardView>(R.id.cardSettings)
         val cardAccount = findViewById<MaterialCardView>(R.id.cardAccount)
 
+        btnEditProfile.setOnClickListener {
+            // Navigate to AssessmentActivity to edit profile data
+            val intent = Intent(this, AssessmentActivity::class.java)
+            startActivity(intent)
+        }
+
         cardStats.setOnClickListener {
-            // Navigate to StatsActivity (using CalorieStatsActivity as it exists)
             val intent = Intent(this, CalorieStatsActivity::class.java)
             startActivity(intent)
         }
 
         cardAchievements.setOnClickListener {
-            // Placeholder: Navigate to AchievementsActivity
-            // startActivity(Intent(this, AchievementsActivity::class.java))
+            Toast.makeText(this, "Achievements feature coming soon! 🏆", Toast.LENGTH_SHORT).show()
         }
 
         cardSettings.setOnClickListener {
-            // Placeholder: Navigate to SettingsActivity
-            // startActivity(Intent(this, SettingsActivity::class.java))
+            Toast.makeText(this, "Settings feature coming soon! ⚙️", Toast.LENGTH_SHORT).show()
         }
 
         cardAccount.setOnClickListener {
-            // Placeholder: Navigate to AccountActivity or handle Logout
+            // For now, logout functionality
             val intent = Intent(this, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)

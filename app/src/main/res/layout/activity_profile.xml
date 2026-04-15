@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gh_bg">
+    android:background="@color/aqua_bg">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:alpha="0"
         android:fillViewport="true"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
         app:layout_constraintTop_toTopOf="parent">
@@ -36,8 +35,8 @@
                     android:padding="2dp"
                     android:src="@android:drawable/ic_menu_myplaces"
                     app:shapeAppearanceOverlay="@style/CircleImage"
-                    app:strokeColor="@color/gh_primary"
-                    app:strokeWidth="2dp" />
+                    app:strokeColor="@color/aqua_primary"
+                    app:strokeWidth="3dp" />
 
                 <TextView
                     android:id="@+id/tvProfileName"
@@ -51,18 +50,20 @@
                     style="@style/BodyText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fitness Enthusiast" />
+                    android:text="Fitness Enthusiast"
+                    android:textColor="@color/aqua_primary_dark" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnEditProfile"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:text="Edit Profile"
                     android:textAllCaps="false"
-                    android:textColor="@color/gh_primary"
+                    android:textColor="@color/aqua_primary"
                     app:icon="@android:drawable/ic_menu_edit"
-                    app:iconTint="@color/gh_primary" />
+                    app:iconTint="@color/aqua_primary" />
             </LinearLayout>
 
             <!-- Navigation Cards -->
@@ -73,9 +74,9 @@
                 style="@style/FigmaCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:clickable="true"
-                android:focusable="true"
-                app:cardCornerRadius="16dp">
+                android:focusable="true">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -88,7 +89,7 @@
                         android:layout_height="28dp"
                         android:layout_centerVertical="true"
                         android:src="@android:drawable/ic_menu_sort_by_size"
-                        app:tint="@color/gh_primary" />
+                        app:tint="@color/aqua_primary" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -101,16 +102,14 @@
                             style="@style/SectionText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="📊 Lifetime Stats"
-                            android:textSize="17sp" />
+                            android:text="📊 Lifetime Stats" />
 
                         <TextView
                             android:id="@+id/tvStatsPreview"
                             style="@style/BodyText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="124 Workouts • 12,400 kcal"
-                            android:textSize="13sp" />
+                            android:text="124 Workouts • 12,400 kcal" />
                     </LinearLayout>
 
                     <ImageView
@@ -119,7 +118,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:src="@android:drawable/ic_media_play"
-                        app:tint="@color/gh_text_muted" />
+                        app:tint="@color/aqua_border" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -129,10 +128,9 @@
                 style="@style/FigmaCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:clickable="true"
-                android:focusable="true"
-                app:cardCornerRadius="16dp">
+                android:focusable="true">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -145,7 +143,7 @@
                         android:layout_height="28dp"
                         android:layout_centerVertical="true"
                         android:src="@android:drawable/btn_star_big_on"
-                        app:tint="@color/gh_primary" />
+                        app:tint="@color/aqua_primary" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -158,15 +156,13 @@
                             style="@style/SectionText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="🏆 Achievements"
-                            android:textSize="17sp" />
+                            android:text="🏆 Achievements" />
 
                         <TextView
                             style="@style/BodyText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="🔥 5-Day Streak • 🥇 First Win"
-                            android:textSize="13sp" />
+                            android:text="🔥 5-Day Streak • 🥇 First Win" />
                     </LinearLayout>
 
                     <ImageView
@@ -175,7 +171,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:src="@android:drawable/ic_media_play"
-                        app:tint="@color/gh_text_muted" />
+                        app:tint="@color/aqua_border" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -185,10 +181,9 @@
                 style="@style/FigmaCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:clickable="true"
-                android:focusable="true"
-                app:cardCornerRadius="16dp">
+                android:focusable="true">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -201,7 +196,7 @@
                         android:layout_height="28dp"
                         android:layout_centerVertical="true"
                         android:src="@android:drawable/ic_menu_preferences"
-                        app:tint="@color/gh_primary" />
+                        app:tint="@color/aqua_primary" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -214,15 +209,13 @@
                             style="@style/SectionText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="⚙️ Settings"
-                            android:textSize="17sp" />
+                            android:text="⚙️ Settings" />
 
                         <TextView
                             style="@style/BodyText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Preferences, Units, Notifications"
-                            android:textSize="13sp" />
+                            android:text="Preferences, Units, Notifications" />
                     </LinearLayout>
 
                     <ImageView
@@ -231,7 +224,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:src="@android:drawable/ic_media_play"
-                        app:tint="@color/gh_text_muted" />
+                        app:tint="@color/aqua_border" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -241,11 +234,9 @@
                 style="@style/FigmaCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_marginBottom="32dp"
                 android:clickable="true"
-                android:focusable="true"
-                app:cardCornerRadius="16dp">
+                android:focusable="true">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -258,7 +249,7 @@
                         android:layout_height="28dp"
                         android:layout_centerVertical="true"
                         android:src="@android:drawable/ic_menu_info_details"
-                        app:tint="@color/gh_primary" />
+                        app:tint="@color/aqua_primary" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -271,15 +262,13 @@
                             style="@style/SectionText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="🔐 Account"
-                            android:textSize="17sp" />
+                            android:text="🔐 Account" />
 
                         <TextView
                             style="@style/BodyText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Email, Logout, Subscription"
-                            android:textSize="13sp" />
+                            android:text="Email, Logout, Subscription" />
                     </LinearLayout>
 
                     <ImageView
@@ -288,7 +277,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:src="@android:drawable/ic_media_play"
-                        app:tint="@color/gh_text_muted" />
+                        app:tint="@color/aqua_border" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -299,9 +288,9 @@
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gh_card"
-        app:itemIconTint="@color/gh_text_muted"
-        app:itemTextColor="@color/gh_text_muted"
+        android:background="@color/aqua_card"
+        app:itemIconTint="@color/aqua_primary"
+        app:itemTextColor="@color/aqua_primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav_menu" />
 
