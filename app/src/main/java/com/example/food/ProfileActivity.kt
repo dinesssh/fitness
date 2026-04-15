@@ -37,7 +37,6 @@ class ProfileActivity : AppCompatActivity() {
         val cardAccount = findViewById<MaterialCardView>(R.id.cardAccount)
 
         btnEditProfile.setOnClickListener {
-            // Navigate to AssessmentActivity to edit profile data
             val intent = Intent(this, AssessmentActivity::class.java)
             startActivity(intent)
         }
@@ -56,11 +55,9 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         cardAccount.setOnClickListener {
-            // For now, logout functionality
-            val intent = Intent(this, LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            // Navigate to Account Details page instead of direct logout
+            val intent = Intent(this, AccountActivity::class.java)
             startActivity(intent)
-            finish()
         }
     }
 
@@ -68,25 +65,18 @@ class ProfileActivity : AppCompatActivity() {
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNav.selectedItemId = R.id.nav_profile
         bottomNav.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_home -> {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
-                    true
-                }
-                R.id.nav_workouts -> {
-                    startActivity(Intent(this, WorkoutActivity::class.java))
-                    finish()
-                    true
-                }
-                R.id.nav_nutrition -> {
-                    startActivity(Intent(this, MyMealsActivity::class.java))
-                    finish()
-                    true
-                }
-                R.id.nav_profile -> true
-                else -> false
+            val intent = when (item.itemId) {
+                R.id.nav_home -> Intent(this, MainActivity::class.java)
+                R.id.nav_workouts -> Intent(this, WorkoutActivity::class.java)
+                R.id.nav_nutrition -> Intent(this, MyMealsActivity::class.java)
+                R.id.nav_profile -> null
+                else -> null
             }
+            intent?.let {
+                it.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                startActivity(it)
+            }
+            true
         }
     }
 

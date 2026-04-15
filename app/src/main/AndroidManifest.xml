@@ -47,6 +47,7 @@
         <activity android:name=".WorkoutSelectionActivity" android:exported="false" />
         <activity android:name=".WorkoutSessionActivity" android:exported="false" />
         <activity android:name=".ProfileActivity" android:exported="false" />
+        <activity android:name=".AccountActivity" android:exported="false" />
 
         <service
             android:name=".FoodReminderService"

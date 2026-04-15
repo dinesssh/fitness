@@ -42,11 +42,15 @@ class MainActivity : AppCompatActivity() {
     private fun setupUI() {
         // Quick Action Listeners
         findViewById<MaterialButton>(R.id.btnQuickLogMeal).setOnClickListener {
-            startActivity(Intent(this, MyMealsActivity::class.java))
+            val intent = Intent(this, MyMealsActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            startActivity(intent)
         }
 
         findViewById<MaterialButton>(R.id.btnQuickStartWorkout).setOnClickListener {
-            startActivity(Intent(this, WorkoutActivity::class.java))
+            val intent = Intent(this, WorkoutActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            startActivity(intent)
         }
 
         findViewById<MaterialButton>(R.id.btnQuickAddWater).setOnClickListener {
@@ -56,7 +60,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<ImageView>(R.id.ivProfile).setOnClickListener {
-            startActivity(Intent(this, ProfileActivity::class.java))
+            val intent = Intent(this, ProfileActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            startActivity(intent)
         }
     }
 
@@ -64,22 +70,18 @@ class MainActivity : AppCompatActivity() {
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNav.selectedItemId = R.id.nav_home
         bottomNav.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_home -> true
-                R.id.nav_workouts -> {
-                    startActivity(Intent(this, WorkoutActivity::class.java))
-                    true
-                }
-                R.id.nav_nutrition -> {
-                    startActivity(Intent(this, MyMealsActivity::class.java))
-                    true
-                }
-                R.id.nav_profile -> {
-                    startActivity(Intent(this, ProfileActivity::class.java))
-                    true
-                }
-                else -> false
+            val intent = when (item.itemId) {
+                R.id.nav_home -> null
+                R.id.nav_workouts -> Intent(this, WorkoutActivity::class.java)
+                R.id.nav_nutrition -> Intent(this, MyMealsActivity::class.java)
+                R.id.nav_profile -> Intent(this, ProfileActivity::class.java)
+                else -> null
             }
+            intent?.let {
+                it.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                startActivity(it)
+            }
+            true
         }
     }
 
@@ -87,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         // Dynamic Greeting
         val cursorProfile = db.getProfile()
         if (cursorProfile != null && cursorProfile.moveToFirst()) {
-            findViewById<TextView>(R.id.tvGreeting).text = "Good Day, Harsith 👋"
+            findViewById<TextView>(R.id.tvGreeting).text = "Hey Harsith! 👋"
             cursorProfile.close()
         }
 
@@ -104,16 +106,16 @@ class MainActivity : AppCompatActivity() {
         val goal = 2200
         val left = (goal - consumed).coerceAtLeast(0)
         
-        findViewById<TextView>(R.id.tvCalorieRatio).text = "$consumed / $goal kcal"
+        findViewById<TextView>(R.id.tvCalorieRatio).text = "$consumed"
         findViewById<ProgressBar>(R.id.pbCalories).apply {
             max = goal
             progress = consumed
         }
-        findViewById<TextView>(R.id.tvCalorieLeft).text = "$left kcal left"
+        findViewById<TextView>(R.id.tvCalorieLeft).text = "$left left"
 
         // Daily Snapshot Data
         val waterIntake = db.getTodayWater()
-        findViewById<TextView>(R.id.tvWater).text = "${waterIntake / 1000.0}L / 3L"
+        findViewById<TextView>(R.id.tvWater).text = "${waterIntake / 1000.0}L"
         
         val streak = db.getStreak()
         findViewById<TextView>(R.id.tvStreak).text = "$streak Days 🔥"
