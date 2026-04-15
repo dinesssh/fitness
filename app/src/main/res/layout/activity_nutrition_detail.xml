@@ -171,6 +171,26 @@
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCapturePhoto"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Capture Meal Photo (Optional)"
+                android:textAllCaps="false"
+                app:icon="@android:drawable/ic_menu_camera"
+                app:strokeColor="@color/gh_primary" />
+
+            <ImageView
+                android:id="@+id/ivMealPreview"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="16dp"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                android:background="@drawable/circle_outline" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
