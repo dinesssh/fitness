@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/aqua_bg">
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/mainScrollView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:fillViewport="true"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="100dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,235 +18,315 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <!-- Fresh Header -->
+            <!-- Header -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp">
-
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
                     <TextView
                         android:id="@+id/tvGreeting"
-                        style="@style/TitleText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Hey Harsith! 👋"
-                        android:textSize="28sp" />
-
+                        android:textColor="@color/aqua_text"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
                     <TextView
-                        style="@style/BodyText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Ready to crush your goals today?"
+                        android:text="Here's your fitness overview"
+                        android:textColor="@color/aqua_text_muted"
                         android:textSize="16sp" />
                 </LinearLayout>
-
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/ivProfile"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:padding="2dp"
                     android:src="@android:drawable/ic_menu_myplaces"
                     app:shapeAppearanceOverlay="@style/CircleImage"
                     app:strokeColor="@color/aqua_primary"
                     app:strokeWidth="2dp" />
             </RelativeLayout>
 
-            <!-- Main Calorie Card (Figma Style) -->
+            <!-- Fitness Score Card -->
             <com.google.android.material.card.MaterialCardView
-                style="@style/FigmaCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                app:cardElevation="8dp">
+                app:cardCornerRadius="24dp"
+                app:cardElevation="8dp"
+                app:strokeWidth="0dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_score_gradient"
+                    android:padding="24dp">
+                    <RelativeLayout
+                        android:id="@+id/scoreContainer"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp">
+                        <ProgressBar
+                            android:id="@+id/pbFitnessScore"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:indeterminate="false"
+                            android:max="100"
+                            android:progress="75"
+                            android:progressDrawable="@drawable/circular_progress_primary" />
+                        <TextView
+                            android:id="@+id/tvFitnessScore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="75"
+                            android:textColor="@color/white"
+                            android:textSize="32sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/scoreContainer"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="24dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Fitness Score"
+                            android:textColor="@color/white"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Keep crushing your daily goals!"
+                            android:textColor="#E0F7FA"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
 
+            <!-- Calories Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="24dp">
-
-                    <TextView
-                        style="@style/SectionText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Daily Calories"
-                        android:textColor="@color/aqua_primary_dark" />
-
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Calories"
+                            android:textColor="@color/aqua_text"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tvCalorieRatio"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="1420 / 2200"
+                            android:textColor="@color/aqua_primary_dark"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
                     <ProgressBar
                         android:id="@+id/pbCalories"
                         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="12dp"
+                        android:layout_height="16dp"
                         android:layout_marginTop="20dp"
                         android:progress="65"
                         android:progressDrawable="@drawable/custom_progress_aqua" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/tvCalorieLeft"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:gravity="bottom">
-
-                        <TextView
-                            android:id="@+id/tvCalorieRatio"
-                            style="@style/TitleText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="1,420"
-                            android:textSize="32sp" />
-
-                        <TextView
-                            style="@style/BodyText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            android:layout_marginBottom="4dp"
-                            android:text="/ 2,200 kcal" />
-
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:id="@+id/tvCalorieLeft"
-                            style="@style/SectionText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="4dp"
-                            android:text="780 left"
-                            android:textColor="@color/aqua_success"
-                            android:textSize="14sp" />
-                    </LinearLayout>
+                        android:layout_marginTop="12dp"
+                        android:text="780 kcal left"
+                        android:textColor="@color/aqua_success"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Quick Action Chips -->
-            <TextView
-                style="@style/SectionText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text="Quick Actions" />
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                android:scrollbars="none">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnQuickLogMeal"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="12dp"
-                        android:backgroundTint="#E0F7FA"
-                        android:text="🍽️ Log Meal"
-                        android:textColor="@color/aqua_primary_dark"
-                        app:cornerRadius="12dp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnQuickStartWorkout"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="12dp"
-                        android:backgroundTint="#E0F7FA"
-                        android:text="💪 Workout"
-                        android:textColor="@color/aqua_primary_dark"
-                        app:cornerRadius="12dp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnQuickAddWater"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="💧 Hydrate"
-                        android:backgroundTint="#E0F7FA"
-                        android:textColor="@color/aqua_primary_dark"
-                        app:cornerRadius="12dp" />
-                </LinearLayout>
-            </HorizontalScrollView>
-
-            <!-- Modern Grid Stats -->
+            <!-- Stats Grid -->
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:columnCount="2"
-                android:layout_marginBottom="24dp">
+                android:layout_marginBottom="12dp">
 
                 <com.google.android.material.card.MaterialCardView
-                    style="@style/FigmaCard"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
-                    android:layout_margin="8dp">
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginBottom="24dp"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="@color/white">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:padding="20dp">
-                        <TextView style="@style/BodyText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Water" />
-                        <TextView android:id="@+id/tvWater" style="@style/SectionText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="1.2L" android:textColor="@color/aqua_primary" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Water"
+                            android:textColor="@color/aqua_text"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tvWater"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="1.5L / 3L"
+                            android:textColor="@color/aqua_primary"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+                        <ProgressBar
+                            android:id="@+id/pbWater"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="8dp"
+                            android:layout_marginTop="16dp"
+                            android:progress="50"
+                            android:progressDrawable="@drawable/custom_progress_aqua" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    style="@style/FigmaCard"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_columnWeight="1"
-                    android:layout_margin="8dp">
+                    android:layout_marginStart="12dp"
+                    android:layout_marginBottom="24dp"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="@color/white">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:padding="20dp">
-                        <TextView style="@style/BodyText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Streak" />
-                        <TextView android:id="@+id/tvStreak" style="@style/SectionText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="5 Days 🔥" android:textColor="#FF9800" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Activity"
+                            android:textColor="@color/aqua_text"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tvSteps"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="4500 Steps"
+                            android:textColor="@color/aqua_text"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tvWorkoutMin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="30 min workout"
+                            android:textColor="@color/aqua_text_muted"
+                            android:textSize="14sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
             </GridLayout>
 
-            <!-- Gradient Insight -->
+            <!-- Weekly Chart Card -->
             <com.google.android.material.card.MaterialCardView
-                style="@style/FigmaCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/aqua_primary">
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="20dp">
+                    android:padding="24dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Daily Insight"
-                        android:textColor="@color/white"
+                        android:text="Weekly Progress"
+                        android:textColor="@color/aqua_text"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
-                    <TextView
-                        android:id="@+id/tvInsightMessage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Keep drinking water to stay hydrated and energized!"
-                        android:textColor="#E0F7FA" />
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/calorieChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="220dp"
+                        android:layout_marginTop="20dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
+            <!-- Quick Actions -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="Quick Actions"
+                android:textColor="@color/aqua_text"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnQuickLogMeal"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="12dp"
+                    android:text="Log Meal"
+                    android:textAllCaps="false"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="16dp"
+                    app:backgroundTint="@color/aqua_primary" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnQuickAddWater"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:text="Add Water"
+                    android:textAllCaps="false"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="16dp"
+                    app:backgroundTint="@color/aqua_primary_dark" />
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
@@ -257,10 +335,11 @@
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/aqua_card"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
         app:itemIconTint="@color/aqua_primary"
         app:itemTextColor="@color/aqua_primary"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:elevation="16dp"
         app:menu="@menu/bottom_nav_menu" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
