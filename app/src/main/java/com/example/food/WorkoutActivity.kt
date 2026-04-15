@@ -34,16 +34,19 @@ class WorkoutActivity : AppCompatActivity() {
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
-                    startActivity(Intent(this, MyMealsActivity::class.java))
+                    startActivity(Intent(this, MainActivity::class.java))
                     finish()
                     true
                 }
                 R.id.nav_workouts -> true
                 R.id.nav_nutrition -> {
-                    startActivity(Intent(this, NutritionDetailActivity::class.java))
+                    startActivity(Intent(this, MyMealsActivity::class.java))
                     true
                 }
-                R.id.nav_profile -> true
+                R.id.nav_profile -> {
+                    startActivity(Intent(this, ProfileActivity::class.java))
+                    true
+                }
                 else -> false
             }
         }
@@ -87,5 +90,10 @@ class WorkoutActivity : AppCompatActivity() {
             }
             historyContainer.addView(view)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        findViewById<BottomNavigationView>(R.id.bottomNavigation).selectedItemId = R.id.nav_workouts
     }
 }

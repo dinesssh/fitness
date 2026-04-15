@@ -3,7 +3,6 @@ package com.example.food
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.view.animation.AlphaAnimation
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -43,11 +42,11 @@ class MainActivity : AppCompatActivity() {
     private fun setupUI() {
         // Quick Action Listeners
         findViewById<MaterialButton>(R.id.btnQuickLogMeal).setOnClickListener {
-            startActivity(Intent(this, NutritionDetailActivity::class.java))
+            startActivity(Intent(this, MyMealsActivity::class.java))
         }
 
         findViewById<MaterialButton>(R.id.btnQuickStartWorkout).setOnClickListener {
-            startActivity(Intent(this, WorkoutSelectionActivity::class.java))
+            startActivity(Intent(this, WorkoutActivity::class.java))
         }
 
         findViewById<MaterialButton>(R.id.btnQuickAddWater).setOnClickListener {
@@ -57,8 +56,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<ImageView>(R.id.ivProfile).setOnClickListener {
-            // Future Profile Activity
-            Toast.makeText(this, "Profile coming soon!", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, ProfileActivity::class.java))
         }
     }
 
@@ -77,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_profile -> {
-                    Toast.makeText(this, "Profile Section", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, ProfileActivity::class.java))
                     true
                 }
                 else -> false
@@ -89,7 +87,6 @@ class MainActivity : AppCompatActivity() {
         // Dynamic Greeting
         val cursorProfile = db.getProfile()
         if (cursorProfile != null && cursorProfile.moveToFirst()) {
-            // Using a hardcoded name as per request "Harsith", or we could fetch if saved
             findViewById<TextView>(R.id.tvGreeting).text = "Good Day, Harsith 👋"
             cursorProfile.close()
         }
@@ -134,7 +131,6 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         loadDashboardData()
-        // Ensure bottom nav selection is correct
         findViewById<BottomNavigationView>(R.id.bottomNavigation).selectedItemId = R.id.nav_home
     }
 }

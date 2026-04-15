@@ -39,6 +39,10 @@
         <item name="android:layout_margin">8dp</item>
     </style>
 
+    <style name="CircleImage">
+        <item name="cornerSize">50%</item>
+    </style>
+
     <style name="TitleText">
         <item name="android:textSize">24sp</item>
         <item name="android:textStyle">bold</item>

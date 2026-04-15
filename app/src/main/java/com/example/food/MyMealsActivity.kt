@@ -49,7 +49,7 @@ class MyMealsActivity : AppCompatActivity() {
                 }
                 R.id.nav_nutrition -> true
                 R.id.nav_profile -> {
-                    Toast.makeText(this, "Profile Section", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, ProfileActivity::class.java))
                     true
                 }
                 else -> false
