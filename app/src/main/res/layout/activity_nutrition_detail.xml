@@ -57,7 +57,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -65,10 +65,28 @@
                 app:boxStrokeColor="@color/gh_border"
                 app:hintTextColor="@color/gh_text_muted">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <AutoCompleteTextView
                     android:id="@+id/etMealName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/gh_text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="Quantity (grams)"
+                app:boxStrokeColor="@color/gh_border"
+                app:hintTextColor="@color/gh_text_muted">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etQuantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:text="100"
                     android:textColor="@color/gh_text" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -85,7 +103,8 @@
                     android:id="@+id/etCalories"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
+                    android:focusable="false"
+                    android:inputType="none"
                     android:textColor="@color/gh_text" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -107,7 +126,8 @@
                         android:id="@+id/etProtein"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
+                        android:focusable="false"
+                        android:inputType="none"
                         android:textColor="@color/gh_text" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -125,7 +145,8 @@
                         android:id="@+id/etCarbs"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
+                        android:focusable="false"
+                        android:inputType="none"
                         android:textColor="@color/gh_text" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -148,7 +169,8 @@
                         android:id="@+id/etFat"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
+                        android:focusable="false"
+                        android:inputType="none"
                         android:textColor="@color/gh_text" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -166,7 +188,8 @@
                         android:id="@+id/etFiber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
+                        android:focusable="false"
+                        android:inputType="none"
                         android:textColor="@color/gh_text" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
