@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">food</string>
+    <string name="calorie_ratio">%1$d / %2$d</string>
+    <string name="calorie_over">%1$d kcal over</string>
+    <string name="calorie_left">%1$d kcal left</string>
+    <string name="water_ratio">%1$.1fL / %2$.1fL</string>
+    <string name="steps_format">%1$d Steps</string>
+    <string name="workout_min_format">%1$d min workout</string>
 </resources>

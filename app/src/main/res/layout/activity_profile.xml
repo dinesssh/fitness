@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/aqua_bg">
+    android:background="@color/app_bg">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
@@ -35,7 +35,7 @@
                     android:padding="2dp"
                     android:src="@android:drawable/ic_menu_myplaces"
                     app:shapeAppearanceOverlay="@style/CircleImage"
-                    app:strokeColor="@color/aqua_primary"
+                    app:strokeColor="@color/app_primary"
                     app:strokeWidth="3dp" />
 
                 <TextView
@@ -51,19 +51,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Fitness Enthusiast"
-                    android:textColor="@color/aqua_primary_dark" />
+                    android:textColor="@color/app_primary" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnEditProfile"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    style="@style/Widget.Material3.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:text="Edit Profile"
                     android:textAllCaps="false"
-                    android:textColor="@color/aqua_primary"
+                    android:textColor="@color/app_primary"
                     app:icon="@android:drawable/ic_menu_edit"
-                    app:iconTint="@color/aqua_primary" />
+                    app:iconTint="@color/app_primary" />
             </LinearLayout>
 
             <!-- Navigation Cards -->
@@ -89,7 +89,7 @@
                         android:layout_height="28dp"
                         android:layout_centerVertical="true"
                         android:src="@android:drawable/ic_menu_sort_by_size"
-                        app:tint="@color/aqua_primary" />
+                        app:tint="@color/app_primary" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -109,7 +109,7 @@
                             style="@style/BodyText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="124 Workouts • 12,400 kcal" />
+                            android:text="0 Workouts • 0 kcal" />
                     </LinearLayout>
 
                     <ImageView
@@ -118,7 +118,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:src="@android:drawable/ic_media_play"
-                        app:tint="@color/aqua_border" />
+                        app:tint="@color/app_border" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -143,7 +143,7 @@
                         android:layout_height="28dp"
                         android:layout_centerVertical="true"
                         android:src="@android:drawable/btn_star_big_on"
-                        app:tint="@color/aqua_primary" />
+                        app:tint="@color/app_primary" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -159,10 +159,11 @@
                             android:text="🏆 Achievements" />
 
                         <TextView
+                            android:id="@+id/tvAchievementsPreview"
                             style="@style/BodyText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="🔥 5-Day Streak • 🥇 First Win" />
+                            android:text="No achievements yet" />
                     </LinearLayout>
 
                     <ImageView
@@ -171,7 +172,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:src="@android:drawable/ic_media_play"
-                        app:tint="@color/aqua_border" />
+                        app:tint="@color/app_border" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -196,7 +197,7 @@
                         android:layout_height="28dp"
                         android:layout_centerVertical="true"
                         android:src="@android:drawable/ic_menu_preferences"
-                        app:tint="@color/aqua_primary" />
+                        app:tint="@color/app_primary" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -224,7 +225,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:src="@android:drawable/ic_media_play"
-                        app:tint="@color/aqua_border" />
+                        app:tint="@color/app_border" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -249,7 +250,7 @@
                         android:layout_height="28dp"
                         android:layout_centerVertical="true"
                         android:src="@android:drawable/ic_menu_info_details"
-                        app:tint="@color/aqua_primary" />
+                        app:tint="@color/app_primary" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -277,7 +278,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:src="@android:drawable/ic_media_play"
-                        app:tint="@color/aqua_border" />
+                        app:tint="@color/app_border" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -287,10 +288,13 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/aqua_card"
-        app:itemIconTint="@color/aqua_primary"
-        app:itemTextColor="@color/aqua_primary"
+        android:layout_height="80dp"
+        android:background="@color/white"
+        app:itemIconTint="@color/app_primary"
+        app:itemTextColor="@color/app_text_secondary"
+        app:itemActiveIndicatorStyle="@style/Widget.Material3.BottomNavigationView.ActiveIndicator"
+        app:labelVisibilityMode="labeled"
+        app:elevation="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav_menu" />
 

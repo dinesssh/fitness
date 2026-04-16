@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class DatabaseHelper(context: Context) :
-    SQLiteOpenHelper(context, "FoodTracker.db", null, 7) {
+    SQLiteOpenHelper(context, "FoodTracker.db", null, 8) {
 
     override fun onCreate(db: SQLiteDatabase) {
 
@@ -21,7 +21,9 @@ class DatabaseHelper(context: Context) :
                 weight REAL,
                 height INTEGER,
                 gender TEXT,
-                goal TEXT
+                goal TEXT,
+                activity_level TEXT,
+                daily_calorie_goal INTEGER
             )
         """)
 
@@ -73,12 +75,17 @@ class DatabaseHelper(context: Context) :
     }
 
     override fun onUpgrade(db: SQLiteDatabase, old: Int, new: Int) {
-        db.execSQL("DROP TABLE IF EXISTS user_profile")
-        db.execSQL("DROP TABLE IF EXISTS meals")
-        db.execSQL("DROP TABLE IF EXISTS water")
-        db.execSQL("DROP TABLE IF EXISTS activity")
-        db.execSQL("DROP TABLE IF EXISTS workout_history")
-        onCreate(db)
+        if (old < 8) {
+            db.execSQL("ALTER TABLE user_profile ADD COLUMN activity_level TEXT")
+            db.execSQL("ALTER TABLE user_profile ADD COLUMN daily_calorie_goal INTEGER")
+        } else {
+            db.execSQL("DROP TABLE IF EXISTS user_profile")
+            db.execSQL("DROP TABLE IF EXISTS meals")
+            db.execSQL("DROP TABLE IF EXISTS water")
+            db.execSQL("DROP TABLE IF EXISTS activity")
+            db.execSQL("DROP TABLE IF EXISTS workout_history")
+            onCreate(db)
+        }
     }
 
     // ---------------- USER PROFILE ----------------
@@ -88,8 +95,24 @@ class DatabaseHelper(context: Context) :
         weight: Double,
         height: Int,
         gender: String,
-        goal: String
+        goal: String,
+        activityLevel: String = "Moderate"
     ): Long {
+
+        val bmr = if (gender.lowercase().contains("male")) {
+            (10 * weight) + (6.25 * height) - (5 * age) + 5
+        } else {
+            (10 * weight) + (6.25 * height) - (5 * age) - 161
+        }
+
+        val multiplier = when (activityLevel.lowercase()) {
+            "sedentary" -> 1.2
+            "active" -> 1.725
+            "very active" -> 1.9
+            else -> 1.55 // Moderate
+        }
+
+        val dailyGoal = (bmr * multiplier).toInt()
 
         val db = writableDatabase
 
@@ -100,6 +123,8 @@ class DatabaseHelper(context: Context) :
             put("height", height)
             put("gender", gender)
             put("goal", goal)
+            put("activity_level", activityLevel)
+            put("daily_calorie_goal", dailyGoal)
         }
 
         val result = db.insertWithOnConflict(
@@ -118,6 +143,20 @@ class DatabaseHelper(context: Context) :
             "SELECT * FROM user_profile WHERE id=1",
             null
         )
+    }
+
+    fun getDailyCalorieGoal(): Int {
+        val cursor = getProfile()
+        var goal = 2200
+        if (cursor != null && cursor.moveToFirst()) {
+            val index = cursor.getColumnIndex("daily_calorie_goal")
+            if (index != -1) {
+                val dbGoal = cursor.getInt(index)
+                if (dbGoal > 0) goal = dbGoal
+            }
+        }
+        cursor?.close()
+        return goal
     }
 
     // ---------------- MEALS ----------------

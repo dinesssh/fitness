@@ -118,7 +118,7 @@ class NutritionDetailActivity : AppCompatActivity() {
                     mealTypeDropdown.text.toString(),
                     imageBytes
                 )
-                Toast.makeText(this, "Meal Logged!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Meal added successfully 🍽️", Toast.LENGTH_SHORT).show()
                 finish()
             } catch (e: Exception) {
                 Toast.makeText(this, "Error saving", Toast.LENGTH_SHORT).show()

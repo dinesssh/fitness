@@ -1,14 +1,18 @@
 package com.example.food
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -37,40 +41,32 @@ class MyMealsActivity : AppCompatActivity() {
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNav.selectedItemId = R.id.nav_nutrition
         bottomNav.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_home -> {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
-                    true
-                }
-                R.id.nav_workouts -> {
-                    startActivity(Intent(this, WorkoutActivity::class.java))
-                    true
-                }
-                R.id.nav_nutrition -> true
-                R.id.nav_profile -> {
-                    startActivity(Intent(this, ProfileActivity::class.java))
-                    true
-                }
-                else -> false
+            val intent = when (item.itemId) {
+                R.id.nav_home -> Intent(this, MainActivity::class.java)
+                R.id.nav_workouts -> Intent(this, WorkoutActivity::class.java)
+                R.id.nav_profile -> Intent(this, ProfileActivity::class.java)
+                else -> null
             }
+            intent?.let {
+                val options = ActivityOptionsCompat.makeCustomAnimation(this, android.R.anim.fade_in, android.R.anim.fade_out)
+                startActivity(it, options.toBundle())
+                if (item.itemId == R.id.nav_home) finish()
+                true
+            } ?: false
         }
     }
 
     private fun setupClickListeners() {
-        findViewById<ImageView>(R.id.btnAddBreakfast).setOnClickListener { openAddMeal("Breakfast") }
-        findViewById<ImageView>(R.id.btnAddLunch).setOnClickListener { openAddMeal("Lunch") }
-        findViewById<ImageView>(R.id.btnAddDinner).setOnClickListener { openAddMeal("Dinner") }
-        findViewById<ImageView>(R.id.btnAddSnacks).setOnClickListener { openAddMeal("Snacks") }
+        findViewById<ImageView>(R.id.btnAddBreakfast).setOnClickListener { it.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_click)); openAddMeal("Breakfast") }
+        findViewById<ImageView>(R.id.btnAddLunch).setOnClickListener { it.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_click)); openAddMeal("Lunch") }
+        findViewById<ImageView>(R.id.btnAddDinner).setOnClickListener { it.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_click)); openAddMeal("Dinner") }
+        findViewById<ImageView>(R.id.btnAddSnacks).setOnClickListener { it.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_click)); openAddMeal("Snacks") }
 
         findViewById<com.google.android.material.button.MaterialButton>(R.id.btnAddWaterQuick).setOnClickListener {
+            it.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_click))
             db.addWater(250)
             updateDashboard()
             Toast.makeText(this, "250ml Added! 💧", Toast.LENGTH_SHORT).show()
-        }
-
-        findViewById<com.google.android.material.button.MaterialButton>(R.id.btnWaterPage).setOnClickListener {
-            startActivity(Intent(this, HydrationActivity::class.java))
         }
     }
 
@@ -81,7 +77,6 @@ class MyMealsActivity : AppCompatActivity() {
     }
 
     private fun updateDashboard() {
-        // --- 1. Calorie & Goal Logic ---
         val cursorProfile = db.getProfile()
         var calorieGoal = 2200
         if (cursorProfile != null && cursorProfile.moveToFirst()) {
@@ -90,15 +85,12 @@ class MyMealsActivity : AppCompatActivity() {
             cursorProfile.close()
         }
 
-        // --- 2. Aggregate Today's Nutrition ---
         val cursorMeals = db.getTodayMeals()
         var totalCal = 0
         var totalPro = 0.0
         var totalCarb = 0.0
         var totalFat = 0.0
-        var totalFib = 0.0
 
-        // Clear containers
         val bItems = findViewById<LinearLayout>(R.id.breakfastItems).apply { removeAllViews() }
         val lItems = findViewById<LinearLayout>(R.id.lunchItems).apply { removeAllViews() }
         val dItems = findViewById<LinearLayout>(R.id.dinnerItems).apply { removeAllViews() }
@@ -114,17 +106,16 @@ class MyMealsActivity : AppCompatActivity() {
                 val pro = cursorMeals.getDouble(cursorMeals.getColumnIndexOrThrow("protein"))
                 val carb = cursorMeals.getDouble(cursorMeals.getColumnIndexOrThrow("carbs"))
                 val fat = cursorMeals.getDouble(cursorMeals.getColumnIndexOrThrow("fat"))
-                val fib = cursorMeals.getDouble(cursorMeals.getColumnIndexOrThrow("fiber"))
                 val type = cursorMeals.getString(cursorMeals.getColumnIndexOrThrow("meal_type"))
 
-                totalCal += cal; totalPro += pro; totalCarb += carb; totalFat += fat; totalFib += fib
+                totalCal += cal; totalPro += pro; totalCarb += carb; totalFat += fat
 
                 val itemRow = LayoutInflater.from(this).inflate(android.R.layout.simple_list_item_2, null)
                 itemRow.findViewById<TextView>(android.R.id.text1).apply {
-                    text = name; setTextColor(ContextCompat.getColor(context, R.color.gh_text))
+                    text = name; setTextColor(ContextCompat.getColor(context, R.color.app_text_primary))
                 }
                 itemRow.findViewById<TextView>(android.R.id.text2).apply {
-                    text = "$cal kcal"; setTextColor(ContextCompat.getColor(context, R.color.gh_text_muted))
+                    text = "$cal kcal"; setTextColor(ContextCompat.getColor(context, R.color.app_text_secondary))
                 }
                 itemRow.setOnLongClickListener {
                     db.deleteMeal(id); updateDashboard()
@@ -141,29 +132,40 @@ class MyMealsActivity : AppCompatActivity() {
             cursorMeals.close()
         }
 
-        // --- 3. Update UI Elements ---
         findViewById<TextView>(R.id.tvTotalCalories).text = "$totalCal / $calorieGoal kcal"
-        findViewById<ProgressBar>(R.id.pbTotalCalories).apply { max = calorieGoal; progress = totalCal }
+        val pbTotal = findViewById<ProgressBar>(R.id.pbTotalCalories)
+        pbTotal.max = calorieGoal
+        animateProgressBar(pbTotal, totalCal)
 
         findViewById<TextView>(R.id.tvProtein).text = "${totalPro.toInt()}g"
-        findViewById<ProgressBar>(R.id.pbProtein).progress = totalPro.toInt()
+        val pbPro = findViewById<ProgressBar>(R.id.pbProtein)
+        pbPro.max = 150
+        animateProgressBar(pbPro, totalPro.toInt())
         
         findViewById<TextView>(R.id.tvCarbs).text = "${totalCarb.toInt()}g"
-        findViewById<ProgressBar>(R.id.pbCarbs).progress = totalCarb.toInt()
+        val pbCarb = findViewById<ProgressBar>(R.id.pbCarbs)
+        pbCarb.max = 300
+        animateProgressBar(pbCarb, totalCarb.toInt())
 
         findViewById<TextView>(R.id.tvFats).text = "${totalFat.toInt()}g"
-        findViewById<ProgressBar>(R.id.pbFats).progress = totalFat.toInt()
-
-        findViewById<TextView>(R.id.tvFiber).text = "${totalFib.toInt()}g"
+        val pbFat = findViewById<ProgressBar>(R.id.pbFats)
+        pbFat.max = 100
+        animateProgressBar(pbFat, totalFat.toInt())
 
         findViewById<TextView>(R.id.tvBreakfastCal).text = "$bCal kcal"
         findViewById<TextView>(R.id.tvLunchCal).text = "$lCal kcal"
         findViewById<TextView>(R.id.tvDinnerCal).text = "$dCal kcal"
         findViewById<TextView>(R.id.tvSnacksCal).text = "$sCal kcal"
 
-        // Water
         val water = db.getTodayWater()
         findViewById<TextView>(R.id.tvWaterRatio).text = "${water / 1000.0}L / 3L"
-        findViewById<ProgressBar>(R.id.pbWater).progress = water
+    }
+
+    private fun animateProgressBar(progressBar: ProgressBar, toProgress: Int) {
+        ObjectAnimator.ofInt(progressBar, "progress", progressBar.progress, toProgress).apply {
+            duration = 1000
+            interpolator = AccelerateDecelerateInterpolator()
+            start()
+        }
     }
 }

@@ -1,13 +1,22 @@
 package com.example.food
 
+import android.animation.ObjectAnimator
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.toColorInt
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -39,15 +48,21 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupUI() {
         findViewById<MaterialButton>(R.id.btnQuickLogMeal).setOnClickListener {
-            startActivity(Intent(this, MyMealsActivity::class.java))
+            it.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_click))
+            val intent = Intent(this, MyMealsActivity::class.java)
+            val options = ActivityOptionsCompat.makeCustomAnimation(this, android.R.anim.fade_in, android.R.anim.fade_out)
+            startActivity(intent, options.toBundle())
         }
 
         findViewById<MaterialButton>(R.id.btnQuickAddWater).setOnClickListener {
+            it.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_click))
             showWaterDialog()
         }
 
         findViewById<ImageView>(R.id.ivProfile).setOnClickListener {
-            startActivity(Intent(this, ProfileActivity::class.java))
+            it.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_click))
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -55,12 +70,17 @@ class MainActivity : AppCompatActivity() {
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNav.selectedItemId = R.id.nav_home
         bottomNav.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_workouts -> startActivity(Intent(this, WorkoutActivity::class.java))
-                R.id.nav_nutrition -> startActivity(Intent(this, MyMealsActivity::class.java))
-                R.id.nav_profile -> startActivity(Intent(this, ProfileActivity::class.java))
+            val intent = when (item.itemId) {
+                R.id.nav_workouts -> Intent(this, WorkoutActivity::class.java)
+                R.id.nav_nutrition -> Intent(this, MyMealsActivity::class.java)
+                R.id.nav_profile -> Intent(this, ProfileActivity::class.java)
+                else -> null
             }
-            true
+            intent?.let {
+                val options = ActivityOptionsCompat.makeCustomAnimation(this, android.R.anim.fade_in, android.R.anim.fade_out)
+                startActivity(it, options.toBundle())
+                true
+            } ?: false
         }
     }
 
@@ -108,12 +128,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addWaterAndUpdate(amount: Int) {
-        db.addWater(amount)
-        loadDashboardData()
+        if (amount > 0) {
+            db.addWater(amount)
+            Toast.makeText(this, "Water intake updated 💧", Toast.LENGTH_SHORT).show()
+            loadDashboardData()
+        }
     }
 
     private fun loadDashboardData() {
-        // 1. Calories
         val todayMeals = db.getTodayMeals()
         var consumed = 0
         if (todayMeals != null) {
@@ -122,63 +144,95 @@ class MainActivity : AppCompatActivity() {
             }
             todayMeals.close()
         }
-        val calGoal = 2200
-        findViewById<TextView>(R.id.tvCalorieRatio).text = "$consumed / $calGoal"
-        findViewById<ProgressBar>(R.id.pbCalories).apply {
-            max = calGoal
-            progress = consumed
-            // Color logic: Red if exceeded
-            if (consumed > calGoal) {
-                progressTintList = android.content.res.ColorStateList.valueOf(Color.RED)
-            } else {
-                progressTintList = android.content.res.ColorStateList.valueOf(Color.parseColor("#00BCD4"))
-            }
+        
+        val calGoal = db.getDailyCalorieGoal()
+
+        findViewById<TextView>(R.id.tvCalorieRatio).text = getString(R.string.calorie_ratio, consumed, calGoal)
+        val pbCalories = findViewById<ProgressBar>(R.id.pbCalories)
+        pbCalories.max = calGoal
+        animateProgressBar(pbCalories, consumed)
+        
+        val color = when {
+            consumed > calGoal -> ContextCompat.getColor(this, R.color.app_error)
+            consumed > calGoal * 0.9 -> ContextCompat.getColor(this, R.color.app_warning)
+            else -> ContextCompat.getColor(this, R.color.app_primary)
         }
+        pbCalories.progressTintList = ColorStateList.valueOf(color)
+
         findViewById<TextView>(R.id.tvCalorieLeft).apply {
             if (consumed > calGoal) {
-                text = "${consumed - calGoal} kcal over"
-                setTextColor(Color.RED)
+                text = getString(R.string.calorie_over, consumed - calGoal)
+                setTextColor(ContextCompat.getColor(this@MainActivity, R.color.app_error))
             } else {
-                text = "${calGoal - consumed} kcal left"
-                setTextColor(Color.parseColor("#4CAF50"))
+                text = getString(R.string.calorie_left, calGoal - consumed)
+                setTextColor(ContextCompat.getColor(this@MainActivity, R.color.app_success))
             }
         }
 
-        // 2. Water
         val waterIntake = db.getTodayWater()
         val waterGoal = 3000
-        findViewById<TextView>(R.id.tvWater).text = "${waterIntake / 1000.0}L / ${waterGoal / 1000.0}L"
-        findViewById<ProgressBar>(R.id.pbWater).apply {
-            max = waterGoal
-            progress = waterIntake
-        }
+        findViewById<TextView>(R.id.tvWater).text = getString(R.string.water_ratio, waterIntake / 1000.0, waterGoal / 1000.0)
+        val pbWater = findViewById<ProgressBar>(R.id.pbWater)
+        pbWater.max = waterGoal
+        animateProgressBar(pbWater, waterIntake)
+        pbWater.progressTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.app_primary))
 
-        // 3. Activity
         val activityCursor = db.getTodayActivity()
         var steps = 0
         var workoutMin = 0
         if (activityCursor != null && activityCursor.moveToFirst()) {
-            steps = activityCursor.getInt(activityCursor.getColumnIndexOrThrow("steps"))
-            workoutMin = activityCursor.getInt(activityCursor.getColumnIndexOrThrow("workout_minutes"))
+            val stepsIndex = activityCursor.getColumnIndex("steps")
+            val workoutIndex = activityCursor.getColumnIndex("workout_minutes")
+            if (stepsIndex != -1) steps = activityCursor.getInt(stepsIndex)
+            if (workoutIndex != -1) workoutMin = activityCursor.getInt(workoutIndex)
             activityCursor.close()
         }
-        findViewById<TextView>(R.id.tvSteps).text = "$steps Steps"
-        findViewById<TextView>(R.id.tvWorkoutMin).text = "$workoutMin min workout"
+        findViewById<TextView>(R.id.tvSteps).text = getString(R.string.steps_format, steps)
+        findViewById<TextView>(R.id.tvWorkoutMin).text = getString(R.string.workout_min_format, workoutMin)
 
-        // 4. Fitness Score
-        val calProgress = (consumed.toFloat() / calGoal).coerceAtMost(1f)
+        val calProgress = if (calGoal > 0) (consumed.toFloat() / calGoal).coerceAtMost(1f) else 0f
         val waterProgress = (waterIntake.toFloat() / waterGoal).coerceAtMost(1f)
         val activityProgress = ((steps / 10000f) + (workoutMin / 60f)) / 2f
         val totalScore = ((calProgress + waterProgress + activityProgress) / 3f * 100).toInt().coerceIn(0, 100)
         
-        findViewById<TextView>(R.id.tvFitnessScore).text = "$totalScore"
-        findViewById<ProgressBar>(R.id.pbFitnessScore).progress = totalScore
+        findViewById<TextView>(R.id.tvFitnessScore).text = totalScore.toString()
+        animateProgressBar(findViewById(R.id.pbFitnessScore), totalScore)
 
+        updateInsights(consumed, calGoal, waterIntake, waterGoal, totalScore)
         setupChart()
     }
 
+    private fun updateInsights(consumed: Int, calGoal: Int, waterIntake: Int, waterGoal: Int, score: Int) {
+        val insightCard = findViewById<View>(R.id.insightsCard) ?: return
+        val insightText = findViewById<TextView>(R.id.tvInsightMessage) ?: return
+        val streak = db.getStreak()
+
+        val insight = when {
+            streak > 3 -> "You're on fire! $streak-day streak! 🔥"
+            waterIntake < waterGoal * 0.5 -> "Stay hydrated! Time for a glass of water. 💧"
+            consumed < calGoal * 0.4 -> "Calories are low. Time for a healthy snack? 🍎"
+            score > 80 -> "Excellent progress today! Keep it up! 🌟"
+            else -> null
+        }
+
+        if (insight != null) {
+            insightText.text = insight
+            insightCard.visibility = View.VISIBLE
+        } else {
+            insightCard.visibility = View.GONE
+        }
+    }
+
+    private fun animateProgressBar(progressBar: ProgressBar, toProgress: Int) {
+        ObjectAnimator.ofInt(progressBar, "progress", progressBar.progress, toProgress).apply {
+            duration = 1000
+            interpolator = AccelerateDecelerateInterpolator()
+            start()
+        }
+    }
+
     private fun setupChart() {
-        val chart = findViewById<LineChart>(R.id.calorieChart)
+        val chart = findViewById<LineChart>(R.id.calorieChart) ?: return
         val entries = mutableListOf<Entry>()
         val labels = mutableListOf<String>()
 
@@ -186,11 +240,10 @@ class MainActivity : AppCompatActivity() {
         val dbSdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val calendar = Calendar.getInstance()
         
-        // Ensure 7 days are always present
         val weeklyData = mutableMapOf<String, Int>()
         val last7Days = mutableListOf<String>()
         
-        for (i in 0 until 7) {
+        repeat(7) {
             val dateStr = dbSdf.format(calendar.time)
             last7Days.add(0, dateStr)
             weeklyData[dateStr] = 0
@@ -211,24 +264,24 @@ class MainActivity : AppCompatActivity() {
 
         last7Days.forEachIndexed { index, dateStr ->
             val date = dbSdf.parse(dateStr)
-            labels.add(sdf.format(date!!))
-            entries.add(Entry(index.toFloat(), weeklyData[dateStr]!!.toFloat()))
+            labels.add(if (date != null) sdf.format(date) else "")
+            entries.add(Entry(index.toFloat(), weeklyData[dateStr]?.toFloat() ?: 0f))
         }
 
-        val primaryColor = Color.parseColor("#00BCD4")
+        val primaryColor = ContextCompat.getColor(this, R.color.app_primary)
         val dataSet = LineDataSet(entries, "Calories").apply {
             color = primaryColor
             setCircleColor(primaryColor)
-            lineWidth = 3f
-            circleRadius = 5f
-            circleHoleRadius = 2.5f
+            lineWidth = 4f
+            circleRadius = 6f
+            circleHoleRadius = 3f
             setDrawCircleHole(true)
             circleHoleColor = Color.WHITE
             setDrawValues(false)
             mode = LineDataSet.Mode.CUBIC_BEZIER
             setDrawFilled(true)
-            fillColor = primaryColor
-            fillAlpha = 40
+            fillDrawable = ContextCompat.getDrawable(this@MainActivity, R.drawable.chart_fill_gradient)
+            fillAlpha = 80
         }
 
         chart.apply {
@@ -246,23 +299,25 @@ class MainActivity : AppCompatActivity() {
                 valueFormatter = IndexAxisValueFormatter(labels)
                 granularity = 1f
                 setDrawGridLines(false)
-                setDrawAxisLine(true)
-                axisLineColor = Color.parseColor("#E0F7FA")
-                textColor = Color.parseColor("#607D8B")
-                yOffset = 10f
+                setDrawAxisLine(false)
+                textColor = ContextCompat.getColor(this@MainActivity, R.color.app_text_secondary)
+                textSize = 12f
+                yOffset = 15f
             }
             
             axisLeft.apply {
                 setDrawGridLines(true)
-                gridColor = Color.parseColor("#E0F7FA")
+                gridColor = "#E0F7FA".toColorInt()
+                gridLineWidth = 1f
                 setDrawAxisLine(false)
-                textColor = Color.parseColor("#607D8B")
-                xOffset = 10f
+                textColor = ContextCompat.getColor(this@MainActivity, R.color.app_text_secondary)
+                textSize = 12f
+                xOffset = 15f
                 axisMinimum = 0f
             }
             
             axisRight.isEnabled = false
-            extraBottomOffset = 10f
+            extraBottomOffset = 20f
             animateXY(1000, 1000)
             invalidate()
         }

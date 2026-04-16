@@ -3,35 +3,48 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     
-    <!-- Aqua Bright Theme Palette -->
-    <color name="aqua_bg">#F0F9FF</color>
-    <color name="aqua_primary">#00BCD4</color>
-    <color name="aqua_primary_dark">#0097A7</color>
-    <color name="aqua_accent">#00E5FF</color>
-    <color name="aqua_card">#FFFFFF</color>
-    <color name="aqua_text">#263238</color>
-    <color name="aqua_text_muted">#607D8B</color>
-    <color name="aqua_border">#B2EBF2</color>
-    <color name="aqua_success">#4CAF50</color>
+    <!-- Modern Figma Palette -->
+    <color name="app_bg">#FBFBFB</color>
+    <color name="app_primary">#FF7A00</color> <!-- Accent Orange -->
+    <color name="app_primary_variant">#E66E00</color>
+    <color name="app_text_primary">#000000</color>
+    <color name="app_text_secondary">#666666</color>
+    <color name="app_card_bg">#FFFFFF</color>
+    <color name="app_border">#F0F0F0</color>
+    <color name="app_shadow">#0D000000</color>
     
-    <!-- Macro colors (Brightened) -->
-    <color name="protein_green">#66BB6A</color>
-    <color name="carbs_yellow">#FFD54F</color>
-    <color name="fat_orange">#FF8A65</color>
+    <color name="app_success">#27AE60</color>
+    <color name="app_warning">#F2994A</color>
+    <color name="app_error">#EB5757</color>
 
-    <!-- Legacy / Compatibility Aliases (Fixed linking errors) -->
-    <color name="gh_bg">@color/aqua_bg</color>
-    <color name="gh_card">@color/aqua_card</color>
-    <color name="gh_border">@color/aqua_border</color>
-    <color name="gh_text">@color/aqua_text</color>
-    <color name="gh_text_muted">@color/aqua_text_muted</color>
-    <color name="gh_primary">@color/aqua_primary</color>
-    <color name="gh_success">@color/aqua_success</color>
-    
-    <color name="background_white">#FFFFFF</color>
-    <color name="background_light">@color/aqua_bg</color>
-    <color name="primary_purple">@color/aqua_primary</color>
-    <color name="primary_accent">@color/aqua_primary</color>
-    <color name="text_dark">@color/aqua_text</color>
-    <color name="text_grey">@color/aqua_text_muted</color>
+    <!-- Compatibility Aliases -->
+    <color name="aqua_bg">@color/app_bg</color>
+    <color name="aqua_primary">@color/app_primary</color>
+    <color name="aqua_primary_dark">@color/app_primary_variant</color>
+    <color name="aqua_text">@color/app_text_primary</color>
+    <color name="aqua_text_muted">@color/app_text_secondary</color>
+    <color name="aqua_success">@color/app_success</color>
+    <color name="aqua_warning">@color/app_warning</color>
+    <color name="aqua_error">@color/app_error</color>
+    <color name="aqua_card">@color/app_card_bg</color>
+    <color name="aqua_border">@color/app_border</color>
+
+    <color name="gh_bg">@color/app_bg</color>
+    <color name="gh_card">@color/app_card_bg</color>
+    <color name="gh_border">@color/app_border</color>
+    <color name="gh_text">@color/app_text_primary</color>
+    <color name="gh_text_muted">@color/app_text_secondary</color>
+    <color name="gh_primary">@color/app_primary</color>
+    <color name="gh_success">@color/app_success</color>
+
+    <color name="protein_green">@color/app_success</color>
+    <color name="carbs_yellow">@color/app_warning</color>
+    <color name="fat_orange">@color/app_primary</color>
+
+    <color name="text_grey">@color/app_text_secondary</color>
+    <color name="background_light">@color/app_bg</color>
+    <color name="primary_purple">@color/app_primary</color>
+    <color name="text_dark">@color/app_text_primary</color>
+    <color name="background_white">@color/white</color>
+    <color name="primary_accent">@color/app_primary</color>
 </resources>
