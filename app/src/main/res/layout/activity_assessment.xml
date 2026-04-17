@@ -71,12 +71,31 @@
                     android:orientation="vertical"
                     android:padding="24dp">
 
+                    <!-- Username Input -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/usernameInputLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_username"
+                        app:boxStrokeColor="@color/gh_border"
+                        app:hintTextColor="@color/gh_text_muted">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/usernameInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPersonName"
+                            android:textColor="@color/gh_text" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
                     <!-- Age Input -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/ageInputLayout"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
                         android:hint="Age"
                         app:boxStrokeColor="@color/gh_border"
                         app:hintTextColor="@color/gh_text_muted">

@@ -47,6 +47,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
+        // Retrieve and display username
+        val tvGreeting = findViewById<TextView>(R.id.tvGreeting)
+        val sharedPref = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+        val username = sharedPref.getString("username", "User") ?: "User"
+        tvGreeting.text = getString(R.string.greeting_format, username)
+
         findViewById<MaterialButton>(R.id.btnQuickLogMeal).setOnClickListener {
             it.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_click))
             val intent = Intent(this, MyMealsActivity::class.java)

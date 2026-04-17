@@ -33,14 +33,13 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun loadProfileData() {
+        // Retrieve username from SharedPreferences
+        val sharedPref = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+        val username = sharedPref.getString("username", "User") ?: "User"
+        findViewById<TextView>(R.id.tvProfileName)?.text = username
+
         // Safe access to database and views to prevent crashes
         val cursor = db.getProfile()
-        cursor?.use {
-            if (it.moveToFirst()) {
-                val name = "User" // Placeholder as schema doesn't have name
-                findViewById<TextView>(R.id.tvProfileName)?.text = name
-            }
-        }
 
         // Lifetime Stats calculation
         val historyCursor = db.getWorkoutHistory()

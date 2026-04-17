@@ -6,4 +6,6 @@
     <string name="water_ratio">%1$.1fL / %2$.1fL</string>
     <string name="steps_format">%1$d Steps</string>
     <string name="workout_min_format">%1$d min workout</string>
+    <string name="hint_username">Username</string>
+    <string name="greeting_format">Hello, %1$s 👋</string>
 </resources>
