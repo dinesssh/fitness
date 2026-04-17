@@ -47,4 +47,10 @@
     <color name="text_dark">@color/app_text_primary</color>
     <color name="background_white">@color/white</color>
     <color name="primary_accent">@color/app_primary</color>
+
+    <!-- Fitness Tracker Icon Colors -->
+    <color name="fitness_green">#00E676</color>
+    <color name="fitness_green_dark">#00C853</color>
+    <color name="fitness_black">#121212</color>
+    <color name="fitness_black_light">#1E1E1E</color>
 </resources>
